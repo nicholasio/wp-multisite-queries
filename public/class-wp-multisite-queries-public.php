@@ -142,20 +142,20 @@ class Wp_Multisite_Queries_Public {
 
 		switch ($query_type) {
 			case 'taxonomy':
-				$wpcpn_posts = wpmq_get_network_posts(
+				$wpcpn_posts = wpcpn_get_network_posts(
 					array(
 						'taxonomy_slug' => esc_sql( get_query_var('wpcpn_network_tax') ), 
 						'term_slug' 	=> esc_sql( get_query_var('wpcpn_network_term') ),
 						'size'			=> 10,
-						'paged'			=> max(1, get_query_var('paged') ) 
+						'paged'			=> max(1, esc_sql( get_query_var('paged') ) ) 
 					) 
 				);
 			break;
 			case 'search':
-				$wpcpn_posts = wpmq_get_network_posts(
+				$wpcpn_posts = wpcpn_get_network_posts(
 					array(
 						'size' 		=> 10,
-						'paged'		=> max(1, get_query_var('paged') ),
+						'paged'		=> max(1, esc_sql( get_query_var('paged') ) ),
 						's' 		=> esc_sql( get_query_var('wpcpn_network_search') )
 					)
 				);

@@ -5,7 +5,7 @@
  * @param  Array  $args Arqgumentos para a consulta
  * @return mixed       false se não existir nenhum post, e um Array de objetos caso existam posts
  */
-function wpmq_get_network_posts(Array $args) {
+function wpcpn_get_network_posts(Array $args) {
 	// Prepare the SQL query with $wpdb
 	global $wpdb;
 
@@ -52,7 +52,7 @@ function wpmq_get_network_posts(Array $args) {
 		 $posts_table = esc_sql( $posts_table );
 		 $blogs_table = esc_sql( $base_prefix . 'blogs' );
 
-		 $query .= "(SELECT {$posts_table}.ID as post_id, {$posts_table}.post_title, {$posts_table}.post_date, {$blogs_table}.blog_id as site_id FROM $posts_table";
+		 $query .= "(SELECT {$posts_table}.ID as post_id, {$posts_table}.post_title, {$posts_table}.post_date, {$blogs_table}.blog_id as blog_id FROM $posts_table";
 		 $query .= " INNER JOIN {$blogs_table} ON ({$blogs_table}.blog_id = {$blog_id}) ";
 
 		 //If We have a taxonomy_slug
@@ -111,7 +111,7 @@ function wpmq_get_network_posts(Array $args) {
  * @param  boolean $display Flag para exibir ou retornar
  * @return string           retorna uma string se display = false
  */
-function wpmq_single_cat_title( $prefix = '', $display = true ){
+function wpcpn_single_cat_title( $prefix = '', $display = true ){
 	$term_slug	= esc_sql( get_query_var('wpcpn_network_term') );
 	
 	$term_obj	= get_term_by( 'slug', $term_slug, esc_sql( get_query_var('wpcpn_network_tax') ) );
@@ -130,7 +130,7 @@ function wpmq_single_cat_title( $prefix = '', $display = true ){
  * Retorna true se estiver em uma listagem de uma dada taxonomia
  * @return bool Verdadeiro se estiver em uma listagem global de posts de uma dada taxonomia
  */
-function wpmq_is_network_taxonomy( $taxonomy = 'category' ) {
+function wpcpn_is_network_taxonomy( $taxonomy = 'category' ) {
 	return 	get_query_var('wpcpn_network_term') && 
 			get_query_var('wpcpn_query_type') &&
 			$taxonomy === esc_sql( get_query_var('wpcpn_network_tax') ) ;
@@ -140,11 +140,11 @@ function wpmq_is_network_taxonomy( $taxonomy = 'category' ) {
  * Retorna true se estiver em uma listagem de busca global.
  * @return bool Verdadeiro se estive na página de resultados globais de busca
  */
-function wpmq_is_network_search( ) {
+function wpcpn_is_network_search( ) {
 	return 	get_query_var('wpcpn_network_search') && 
 			get_query_var('wpcpn_query_type');
 }
 
-function wpmq_network_search_url() {
+function wpcpn_network_search_url() {
 	return get_site_url(1, '');
 }
